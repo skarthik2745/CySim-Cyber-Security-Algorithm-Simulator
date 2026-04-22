@@ -1,0 +1,157 @@
+/* GLOBAL STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  /* Gradient matched exactly to image.png background colors */
+  background: linear-gradient(135deg, #dca8ff 0%, #8ad2ff 40%, #ffc099 100%);
+  background-attachment: fixed;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* BUTTONS */
+.primary-btn, .card-btn {
+  display: inline-block;
+  /* Gradient blue → violet */
+  background: linear-gradient(45deg, #4facfe, #8a2be2);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.primary-btn {
+  padding: 15px 35px;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.card-btn {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  margin-top: auto;
+}
+
+.primary-btn:hover, .card-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4); /* Soft shadow glow */
+}
+
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+}
+
+.hero-image {
+  max-width: 100%;
+  width: 450px;
+  height: auto;
+  display: block;
+  margin: 0 auto 30px auto;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* SECTION TITLES */
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+/* FEATURE CARDS GRID */
+.modules-section {
+  padding: 40px 10%;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  padding: 30px 25px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  /* Glassmorphism base */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Pastel Colors */
+.color-cyan { background: rgba(223, 246, 255, 0.75); }
+.color-lavender { background: rgba(232, 227, 255, 0.75); }
+.color-peach { background: rgba(255, 229, 217, 0.75); }
+
+.card .icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* INFO SECTIONS */
+.info-section {
+  padding: 40px 10% 80px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.info-box h2 { margin-bottom: 20px; color: #333; }
+.info-list li { margin-bottom: 15px; font-size: 1.05rem; list-style-position: inside; }
+.check-list li { list-style: none; }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 30px;
+  margin-top: auto;
+  border-radius: 20px 20px 0 0;
+}
+.footer h2 { margin-bottom: 5px; color: #2b5876; }
+.footer p { color: #555; }

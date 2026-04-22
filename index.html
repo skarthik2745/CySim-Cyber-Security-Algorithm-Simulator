@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CYSIM</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.info-section {
+  background: #fdfdfd;
+  border-left: 5px solid #0072ff;
+  padding: 15px 20px;
+  margin: 15px 0;
+  border-radius: 8px;
+  color: #333;
+  font-size: 0.95em;
+  line-height: 1.6;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.info-section h3 { margin-top: 0; color: #0072ff; border-bottom: 2px solid #e1e4e8; padding-bottom: 8px; font-size: 1.2em; }
+.info-section p { margin: 10px 0; }
+.info-section code { background: #e1e4e8; padding: 3px 6px; border-radius: 4px; font-family: monospace; color: #d73a49; font-weight: bold; }
+.info-btn { background: #28a745; transition: 0.3s; margin-bottom: 10px; }
+.info-btn:hover { background: #218838; transform: scale(1.05); }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>🔐 CYSIM</h1>
+<p>Crypto • Encoding • Number System Simulator</p>
+</div>
+
+<div class="nav">
+<button onclick="openTab('caesar')">Caesar</button>
+<button onclick="openTab('vigenere')">Vigenère</button>
+<button onclick="openTab('xor')">XOR</button>
+<button onclick="openTab('rot13')">ROT13</button>
+<button onclick="openTab('reverse')">Reverse</button>
+<button onclick="openTab('atbash')">Atbash</button>
+<button onclick="openTab('alphabet')">A↔Number</button>
+<button onclick="openTab('number')">Number System</button>
+<button onclick="openTab('base64')">Base64</button>
+<button onclick="openTab('sha256')">SHA-256</button>
+</div>
+
+<div class="container">
+
+<!-- CAESAR -->
+<div id="caesar" class="card tab">
+<h2>Caesar Cipher</h2>
+<button class="info-btn" onclick="toggleInfo('caesar-info')">ℹ️ Learn</button>
+<div id="caesar-info" class="info-section" style="display:none;">
+  <h3>🏛️ What is the Caesar Cipher?</h3>
+  <p><strong>📖 Definition:</strong> One of the oldest encryption methods, named after Julius Caesar. It is a <em>substitution cipher</em> that replaces each letter with another letter a fixed number of positions down the alphabet.</p>
+  <p><strong>⚙️ Working Principle:</strong> Imagine a dial with the alphabet. If your shift is <strong>3</strong>:<br> • 'A' moves 3 spaces forward to become 'D'.<br> • 'B' becomes 'E'.<br> • 'Z' wraps around the dial to become 'C'.</p>
+  <p><strong>💡 The Math (Modular Arithmetic):</strong> Computers use numbers for letters. The encryption formula is <code>E(x) = (x + shift) mod 26</code>. The "mod 26" acts like a clock, ensuring we wrap around when we go past 'Z'.</p>
+  <p><strong>🛡️ Real World Application:</strong> Extremely weak today! It can be cracked instantly by trying all 25 possible shifts (Brute Force) or by analyzing common letters (Frequency Analysis). Mostly used as a learning tool.</p>
+</div>
+<textarea id="c_text"></textarea>
+<input id="c_shift" type="number" placeholder="Shift">
+<button onclick="caesarEnc()">Encrypt</button>
+<button onclick="caesarDec()">Decrypt</button>
+<div class="out" id="c_out"></div>
+</div>
+
+<!-- VIGENERE -->
+<div id="vigenere" class="card tab">
+<h2>Vigenère Cipher</h2>
+<button class="info-btn" onclick="toggleInfo('vigenere-info')">ℹ️ Learn</button>
+<div id="vigenere-info" class="info-section" style="display:none;">
+  <h3>🗝️ What is the Vigenère Cipher?</h3>
+  <p><strong>📖 Definition:</strong> An advanced version of the Caesar Cipher. Instead of using a single shift, it uses a <em>keyword</em> to change the shift for every single letter (a <em>polyalphabetic substitution</em>).</p>
+  <p><strong>⚙️ Working Principle:</strong> If your message is <code>HELLO</code> and key is <code>KEY</code>:<br> 1. Repeat the key: <code>KEYKE</code><br> 2. Shift 'H' by 'K' (10 spaces).<br> 3. Shift 'E' by 'E' (4 spaces).<br> This hides repeating letters!</p>
+  <p><strong>💡 Input Transformation:</strong> Historically, people used a "Tabula Recta" (a 26x26 grid of alphabets) to manually find the intersection of the message letter and the key letter.</p>
+  <p><strong>🛡️ Real World Application:</strong> It was considered "le chiffre indéchiffrable" (unbreakable cipher) for 300 years until Charles Babbage cracked it in the 1800s using statistical analysis.</p>
+</div>
+<textarea id="v_text"></textarea>
+<input id="v_key" placeholder="Key">
+<button onclick="vigEnc()">Encrypt</button>
+<button onclick="vigDec()">Decrypt</button>
+<div class="out" id="v_out"></div>
+</div>
+
+<!-- XOR -->
+<div id="xor" class="card tab">
+<h2>XOR Cipher</h2>
+<button class="info-btn" onclick="toggleInfo('xor-info')">ℹ️ Learn</button>
+<div id="xor-info" class="info-section" style="display:none;">
+  <h3>⚡ What is the XOR Cipher?</h3>
+  <p><strong>📖 Definition:</strong> XOR (Exclusive OR) is a logic operation inside CPU hardware. As a cipher, it combines the binary bits (0s and 1s) of your message with a secret key.</p>
+  <p><strong>⚙️ Working Principle:</strong> The XOR rule:<br> • <code>0 ^ 0 = 0</code> (Same = 0)<br> • <code>1 ^ 1 = 0</code> (Same = 0)<br> • <code>1 ^ 0 = 1</code> (Different = 1)<br> • <code>0 ^ 1 = 1</code> (Different = 1)</p>
+  <p><strong>💡 Input Transformation:</strong> XOR is perfectly symmetric! If you encrypt your message with a key, you just XOR the output with the <em>exact same key</em> to decrypt it: <code>(Message ^ Key) ^ Key = Message</code>.</p>
+  <p><strong>🛡️ Real World Application:</strong> Incredibly fast and lightweight. XOR is the mathematical heart of modern, highly secure ciphers like AES (Advanced Encryption Standard) used by banks.</p>
+</div>
+<textarea id="x_text"></textarea>
+<input id="x_key" placeholder="Key">
+<button onclick="xorProcess()">Process</button>
+<div class="out" id="x_out"></div>
+</div>
+
+<!-- ROT13 -->
+<div id="rot13" class="card tab">
+<h2>ROT13</h2>
+<button class="info-btn" onclick="toggleInfo('rot13-info')">ℹ️ Learn</button>
+<div id="rot13-info" class="info-section" style="display:none;">
+  <h3>🔄 What is ROT13?</h3>
+  <p><strong>📖 Definition:</strong> ROT13 ("Rotate by 13 places") is a specific variant of the Caesar Cipher. It shifts every letter by exactly 13 positions.</p>
+  <p><strong>⚙️ Working Principle:</strong> Because the English alphabet has 26 letters, shifting by 13 is exactly half of the alphabet. 'A' becomes 'N', 'B' becomes 'O'... and 'N' becomes 'A'.</p>
+  <p><strong>💡 Input Transformation:</strong> Applying ROT13 twice restores the original text. You don't need a separate "Decrypt" button—encryption and decryption are the exact same mathematical process!</p>
+  <p><strong>🛡️ Real World Application:</strong> Not used for security! It was popularized on early internet forums to hide movie spoilers, punchlines, or offensive text from casual reading. A digital puzzle.</p>
+</div>
+<textarea id="rot_text"></textarea>
+<button onclick="rot13()">Transform</button>
+<div class="out" id="rot_out"></div>
+</div>
+
+<!-- REVERSE -->
+<div id="reverse" class="card tab">
+<h2>Reverse</h2>
+<button class="info-btn" onclick="toggleInfo('reverse-info')">ℹ️ Learn</button>
+<div id="reverse-info" class="info-section" style="display:none;">
+  <h3>⏪ What is Text Reversal?</h3>
+  <p><strong>📖 Definition:</strong> A simple string manipulation that flips the order of characters in a text. The last letter becomes the first, and the first becomes the last.</p>
+  <p><strong>⚙️ Working Principle:</strong> The string <code>"HELLO WORLD"</code> is simply read backwards to become <code>"DLROW OLLEH"</code>.</p>
+  <p><strong>💡 Input Transformation:</strong> In programming, this is often done by converting text into an Array (a list of chars), running a reverse algorithm, and joining them back. A classic coding exercise!</p>
+  <p><strong>🛡️ Real World Application:</strong> Not encryption! Used for checking <em>Palindromes</em> (words reading the same backwards, like "RACECAR"), formatting data, or basic obfuscation to bypass filters.</p>
+</div>
+<textarea id="r_text"></textarea>
+<button onclick="rev()">Transform</button>
+<div class="out" id="r_out"></div>
+</div>
+
+<!-- ATBASH -->
+<div id="atbash" class="card tab">
+<h2>Atbash Cipher</h2>
+<button class="info-btn" onclick="toggleInfo('atbash-info')">ℹ️ Learn</button>
+<div id="atbash-info" class="info-section" style="display:none;">
+  <h3>🪞 What is the Atbash Cipher?</h3>
+  <p><strong>📖 Definition:</strong> Originally used to encode the Hebrew alphabet in biblical texts, Atbash is a <em>substitution cipher</em> that maps the alphabet to its exact reverse mirror.</p>
+  <p><strong>⚙️ Working Principle:</strong> Think of it as folding the alphabet in half.<br> • 1st letter (A) swaps with 26th letter (Z).<br> • 2nd letter (B) swaps with 25th letter (Y).</p>
+  <p><strong>💡 Input Transformation:</strong> If we map A=1 and Z=26, the underlying formula is <code>New = 27 - Old</code>. Like ROT13, Atbash is symmetrical. Apply it twice and you get your original text back.</p>
+  <p><strong>🛡️ Real World Application:</strong> Purely historical and educational today. Often found in escape rooms, puzzle games, and amateur cryptography treasure hunts!</p>
+</div>
+<textarea id="a_text"></textarea>
+<button onclick="atbash()">Transform</button>
+<div class="out" id="a_out"></div>
+</div>
+
+<!-- ALPHABET -->
+<div id="alphabet" class="card tab">
+<h2>A ↔ Number System</h2>
+<button class="info-btn" onclick="toggleInfo('alphabet-info')">ℹ️ Learn</button>
+<div id="alphabet-info" class="info-section" style="display:none;">
+  <h3>🔤 Alphabet ↔ Number Mapping</h3>
+  <p><strong>📖 Definition:</strong> The process of converting alphabetical letters into their corresponding numerical positions.</p>
+  <p><strong>⚙️ Working Principle:</strong> Different modes exist:<br> • <strong>A=1:</strong> How humans count (A=1, B=2 ... Z=26).<br> • <strong>A=0:</strong> How programmers count. Indexing at 0 makes crypto math flawless.<br> • <strong>Z=0:</strong> A reverse mapping.</p>
+  <p><strong>💡 Input Transformation:</strong> Computers don't actually know what 'A' is! They use tables like ASCII, where the capital letter 'A' is internally stored as the decimal number 65, and lowercase 'a' is 97.</p>
+  <p><strong>🛡️ Real World Application:</strong> Essential for building crypto algorithms from scratch, data serialization, and generating spreadsheet column headers (A, B, C... AA, AB).</p>
+</div>
+<select id="n_mode">
+<option value="a1">A = 1</option>
+<option value="a0">A = 0</option>
+<option value="z0">Z = 0</option>
+</select>
+<textarea id="n_text"></textarea>
+<button onclick="toNum()">To Number</button>
+<button onclick="toChar()">To Text</button>
+<div class="out" id="n_out"></div>
+</div>
+
+<!-- NUMBER SYSTEM -->
+<div id="number" class="card tab">
+<h2>Number System Converter</h2>
+<button class="info-btn" onclick="toggleInfo('number-info')">ℹ️ Learn</button>
+<div id="number-info" class="info-section" style="display:none;">
+  <h3>🔢 Number System Conversions</h3>
+  <p><strong>📖 Definition:</strong> Humans use Base-10 (Decimal) because we have 10 fingers. Computers use different mathematical bases depending on hardware constraints.</p>
+  <p><strong>⚙️ Working Principle:</strong><br> • <strong>Binary (Base-2):</strong> Uses <code>0</code> and <code>1</code> (Transistors OFF/ON).<br> • <strong>Octal (Base-8):</strong> Uses <code>0-7</code> (Old computer systems).<br> • <strong>Hexadecimal (Base-16):</strong> Uses <code>0-9</code> and <code>A-F</code> (Compact binary).</p>
+  <p><strong>💡 Input Transformation:</strong> The letter <strong>'A'</strong> is ASCII value 65. Under the hood, this translates to Decimal: <code>65</code> | Binary: <code>01000001</code> | Hex: <code>41</code>.</p>
+  <p><strong>🛡️ Real World Application:</strong> Hexadecimal is extensively used for Web Colors (e.g., <code>#FF0000</code>), Memory Addresses in debugging, and network MAC addresses.</p>
+</div>
+<select id="num_base">
+<option value="2">Binary</option>
+<option value="10">Decimal</option>
+<option value="16">Hex</option>
+<option value="8">Octal</option>
+</select>
+<textarea id="num_text" placeholder="Enter text or numbers"></textarea>
+<div class="btns">
+<button onclick="toNumber()">Text → Number</button>
+<button onclick="convertToString()">Number → Text</button>
+</div>
+<div class="out" id="num_out"></div>
+</div>
+
+<!-- BASE64 -->
+<div id="base64" class="card tab">
+<h2>Base64</h2>
+<button class="info-btn" onclick="toggleInfo('base64-info')">ℹ️ Learn</button>
+<div id="base64-info" class="info-section" style="display:none;">
+  <h3>📦 What is Base64 Encoding?</h3>
+  <p><strong>📖 Definition:</strong> Base64 is an <em>encoding scheme</em> (not encryption!). It takes raw binary data and translates it into a safe, standard text format using 64 printable characters.</p>
+  <p><strong>⚙️ Working Principle:</strong> <br> 1. Takes 3 bytes of data (24 bits).<br> 2. Chops those 24 bits into 4 smaller chunks of 6 bits.<br> 3. Maps those 6-bit chunks to safe characters (A-Z, a-z, 0-9, +, /).<br> 4. Adds <code>=</code> padding at the end if the data doesn't divide evenly.</p>
+  <p><strong>💡 Input Transformation:</strong> Internet protocols like Email were built to handle text, not images. Base64 safely disguises binary images as massive blocks of text so they can be transmitted without breaking!</p>
+  <p><strong>🛡️ Real World Application:</strong> Email attachments, JWT (JSON Web Tokens) for website logins, and embedding tiny icons directly into HTML/CSS files (Data URIs).</p>
+</div>
+<textarea id="b_text"></textarea>
+<button onclick="b64enc()">Encode</button>
+<button onclick="b64dec()">Decode</button>
+<div class="out" id="b_out"></div>
+</div>
+
+<!-- SHA256 -->
+<div id="sha256" class="card tab">
+<h2>SHA-256</h2>
+<button class="info-btn" onclick="toggleInfo('sha256-info')">ℹ️ Learn</button>
+<div id="sha256-info" class="info-section" style="display:none;">
+  <h3>🔒 What is SHA-256 Hashing?</h3>
+  <p><strong>📖 Definition:</strong> SHA-256 is a cryptographic hash function. Unlike encryption, hashing is a <strong>one-way street</strong>. You can scramble data into a hash, but you can <em>never</em> descramble a hash back into data.</p>
+  <p><strong>⚙️ Working Principle:</strong> <br> • <strong>Deterministic:</strong> Same input always = same hash.<br> • <strong>Fixed Size:</strong> A 2-letter word or a 100GB movie both produce exactly 64 characters.<br> • <strong>Avalanche Effect:</strong> Changing ONE letter changes the entire output hash entirely.</p>
+  <p><strong>💡 Input Transformation (Passwords):</strong> Websites NEVER store your actual password. They store the hash. When you log in, they hash what you typed and compare. Hackers only steal useless hashes!</p>
+  <p><strong>🛡️ Real World Application:</strong> Securing passwords, verifying downloaded files, SSL/TLS web certificates, and it is the foundational math that runs the Bitcoin blockchain.</p>
+</div>
+<textarea id="s_text"></textarea>
+<button onclick="sha256()">Hash</button>
+<div class="out" id="s_out"></div>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
